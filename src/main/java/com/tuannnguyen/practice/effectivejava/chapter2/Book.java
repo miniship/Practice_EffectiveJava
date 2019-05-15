@@ -1,62 +1,78 @@
 package com.tuannnguyen.practice.effectivejava.chapter2;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Book {
 
-    private String author;
-    private String title;
-    private Double price;
-    private String publisher;
-    private Integer publishYear;
-    private String genre;
+    private final String author;
+    private final String title;
+    private final double price;
+    private final String publisher;
+    private final int publishYear;
+    private final String genre;
+
+    private Book(BookBuilder bookBuilder) {
+        author = bookBuilder.author;
+        title = bookBuilder.title;
+        price = bookBuilder.price;
+        publisher = bookBuilder.publisher;
+        publishYear = bookBuilder.publishYear;
+        genre = bookBuilder.genre;
+    }
 
     public String getAuthor() {
         return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Double getPrice() {
+    public double getPrice() {
         return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public Integer getPublishYear() {
+    public int getPublishYear() {
         return publishYear;
-    }
-
-    public void setPublishYear(Integer publishYear) {
-        this.publishYear = publishYear;
     }
 
     public String getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public static class BookBuilder {
+        private final String author;
+        private final String title;
+        private final double price;
+        private String publisher = "";
+        private int publishYear = 9999;
+        private String genre = "";
+
+        public BookBuilder(String author, String title, double price) {
+            this.author = author;
+            this.title = title;
+            this.price = price;
+        }
+
+        public BookBuilder publisher(String publisher) {
+            this.publisher = publisher;
+            return this;
+        }
+
+        public BookBuilder publishYear(Integer publishYear) {
+            this.publishYear = publishYear;
+            return this;
+        }
+
+        public BookBuilder genre(String genre) {
+            this.genre = genre;
+            return this;
+        }
+
+        public Book build() {
+            return new Book(this);
+        }
     }
 }
